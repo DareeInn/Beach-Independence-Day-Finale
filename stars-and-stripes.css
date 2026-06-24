@@ -90,7 +90,7 @@ body:not(:has(.page:target)) #dawn{
 }
 
 .chapter-label{font-weight:700;color:var(--liberty-red);letter-spacing:1px}
-.hero h1{margin:0;font-size:2.25rem;color:var(--patriot-blue)}
+.hero h1{margin:0;font-size:2.25rem;color:var(--patriot-blue);padding:0}
 .lead{max-width:60ch;color:rgba(26,26,46,0.95)}
 .hero-actions{display:flex;gap:0.5rem}
 .page-button{display:inline-block;background:var(--patriot-blue);color:#fff;padding:0.6rem 1rem;border-radius:10px;text-decoration:none;transition:transform .18s,box-shadow .18s}
@@ -154,6 +154,48 @@ body:not(:has(.page:target)) #dawn{
 
 /* Ensure main content sits above background */
 .page-inner{position:relative;z-index:2}
+
+/* Decorative positioned helpers from the legacy stylesheet */
+/* These place artwork in fixed positions on the page when needed */
+.standing-seagull {
+  position:absolute;
+  top:85%;
+  left:25%;
+  transform:translate(-50%, -50%);
+  max-width:100px;
+  z-index:1;
+}
+
+.ice-cream-man{
+  position:absolute;
+  top:80%;
+  left:60%;
+  transform:translate(-50%, -50%);
+  max-width:375px;
+  z-index:1;
+}
+
+.ice-cream-cart{
+  position:absolute;
+  top:80%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  max-width:375px;
+  z-index:1;
+}
+
+.flying-seagull {
+  position:absolute;
+  top:25%;
+  left:60%;
+  transform:translate(-50%, -50%);
+  max-width:100px;
+  z-index:1;
+}
+
+/* Small spacing tweaks from the legacy stylesheet */
+.hero h1{padding:0}
+.hero p{margin:0}
 
 /* Footer */
 .site-footer{max-width:var(--max-width);margin:2rem auto;padding:1rem;text-align:center;color:rgba(26,26,46,0.8)}
