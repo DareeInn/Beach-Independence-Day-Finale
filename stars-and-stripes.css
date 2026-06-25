@@ -6,7 +6,7 @@
   --parchment: #F5F0E8;
 
   --max-width: 1200px;
-  --story-width: 1400px; /* increased to allow wider page-inner */
+  --story-width: 1450px; /* increased to allow wider page-inner per request */
   --header-height: 64px;
 }
 
@@ -24,6 +24,30 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--cannon-smoke);
   background: #f4f4f4;
+}
+
+/* Patriotic fixed frame around the viewport (visual only) */
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  border: 18px solid transparent;
+  border-image: linear-gradient(
+    90deg,
+    #BF0A30 0%,
+    #BF0A30 33%,
+    white 33%,
+    white 66%,
+    #002868 66%,
+    #002868 100%
+  ) 1;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Ensure pages leave room for footer so it never overlaps */
+.pages{
+  padding-bottom:160px;
 }
 
 .site-header {
@@ -134,23 +158,28 @@ body:not(:has(.page:target)) #dawn {
 }
 
 .page-united::after{
-  /* dark overlay for united page to increase contrast and readability */
+  /* slightly dark overlay above the background but below content */
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.30);
   z-index: 1;
 }
 
 .page-inner {
   position: relative;
   z-index: 2; /* sits above the overlay */
-  width: min(1400px, 94vw); /* wider story panel */
-  min-height: 760px; /* taller panel */
+  width: min(var(--story-width), 95vw); /* wider story panel */
+  min-height: 780px; /* taller panel */
   background: rgba(245, 240, 232, 0.94);
   border-radius: 24px;
   padding: 3rem; /* increased padding */
   box-shadow: 0 28px 90px rgba(0, 0, 0, 0.32);
+
+  /* removed the American flag border from page-inner per request */
+  border: none;
+  border-image: none;
+  overflow: hidden; /* keep rounded corners */
 }
 
 .hero {
@@ -159,6 +188,7 @@ body:not(:has(.page:target)) #dawn {
   gap: 2rem; /* more spacing */
   align-items: center;
   margin-bottom: 2.5rem; /* more breathing room */
+  padding-bottom: 0.5rem;
 }
 
 .chapter-label {
@@ -169,7 +199,7 @@ body:not(:has(.page:target)) #dawn {
 
 .hero h1 {
   margin: 0;
-  font-size: clamp(2.75rem, 5.5vw, 4.5rem); /* make title much larger */
+  font-size: clamp(2.75rem, 5.5vw, 5rem); /* make title larger */
   line-height: 1.02;
   color: var(--patriot-blue);
 }
@@ -213,7 +243,7 @@ body:not(:has(.page:target)) #dawn {
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px; /* increased spacing between cards */
+  gap: 28px; /* increased spacing between cards */
 }
 
 .united-grid {
@@ -225,7 +255,7 @@ body:not(:has(.page:target)) #dawn {
 .card {
   background: rgba(255, 255, 255, 0.98);
   border-radius: 18px; /* updated radius */
-  padding: 1.75rem; /* larger padding */
+  padding: 2rem; /* larger padding */
   min-height: 320px; /* taller cards */
   box-shadow: 0 16px 44px rgba(0, 0, 0, 0.14);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -241,7 +271,7 @@ body:not(:has(.page:target)) #dawn {
 
 .card img {
   width: 100%;
-  height: 220px; /* larger images inside cards */
+  height: 260px; /* larger images inside cards */
   object-fit: cover;
   display: block;
   border-radius: 12px;
@@ -300,31 +330,52 @@ body:not(:has(.page:target)) #dawn {
 .service-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 0.6rem;
-  margin-top: 1rem;
+  gap: 14px; /* square tiles spacing */
+  margin-top: 16px;
 }
 
 .service-grid figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   margin: 0;
+  background: transparent;
   border-radius: 12px;
-  overflow: hidden;
-  background: var(--patriot-blue);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
-  transition: transform 0.25s ease;
-}
-
-.service-grid figure:hover {
-  transform: translateY(-6px);
+  overflow: visible;
 }
 
 .service-grid img {
   width: 100%;
-  height: 220px; /* increased GIF height */
+  aspect-ratio: 1 / 1; /* square tiles */
   object-fit: cover;
-  display: block;
+  border-radius: 12px;
+  border: 3px solid white;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
 }
 
-/* ensure service card children scale on small screens */
+.service-grid img:hover {
+  transform: scale(1.08);
+}
+
+.service-grid figcaption {
+  text-align: center;
+  font-weight: 700;
+  color: white;
+  background: var(--patriot-blue);
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.service-grid figure:nth-child(3) figcaption,
+.service-grid figure:nth-child(5) figcaption {
+  background: var(--liberty-red);
+}
+
+/* Responsive tweaks */
 @media (max-width: 1100px) {
   .grid,
   .united-grid {
@@ -335,6 +386,10 @@ body:not(:has(.page:target)) #dawn {
     width: 92vw;
     min-height: 640px;
     padding: 2rem;
+  }
+
+  .service-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -378,6 +433,7 @@ body:not(:has(.page:target)) #dawn {
   }
 
   .service-grid img {
+    aspect-ratio: 16 / 9;
     height: 200px;
   }
 
@@ -394,3 +450,45 @@ body:not(:has(.page:target)) #dawn {
     transition: none !important;
   }
 }
+
+/* Patriotic ribbon footer */
+.site-footer {
+  position: relative;
+  z-index: 50;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--cannon-smoke);
+  text-align: center;
+  font-weight: 700;
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.site-footer::before,
+.site-footer::after {
+  content: "";
+  display: block;
+  height: 14px;
+}
+
+.site-footer::before {
+  background: var(--liberty-red);
+}
+
+.site-footer::after {
+  background: var(--patriot-blue);
+}
+
+.site-footer p {
+  margin: 0;
+  padding: 0.35rem 1rem;
+  background: white;
+}
+
+.site-footer .patriotic-statement {
+  color: var(--liberty-red);
+  font-style: italic;
+}
+
+/* Ensure footer text remains readable above backgrounds */
+.site-footer, .site-footer p { position: relative; z-index: 60; }
