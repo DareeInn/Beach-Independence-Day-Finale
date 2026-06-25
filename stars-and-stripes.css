@@ -437,6 +437,25 @@ body:not(:has(.page:target)) #dawn {
   border-radius:8px;
 }
 
+/* United audio card styling (inserted per request) */
+.united-audio{
+  margin: 0 auto 2rem;
+  width: min(900px, 100%);
+  background: rgba(255,255,255,0.95);
+  border-left: 8px solid var(--patriot-blue);
+  border-right: 8px solid var(--liberty-red);
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  text-align: center;
+}
+
+.united-audio p{margin:0 0 0.75rem;color:var(--liberty-red);font-weight:900}
+.united-audio audio{width:100%}
+
+/* ensure audio-card sits above overlays */
+.page-united .united-audio{position:relative;z-index:3}
+
 /* Make cards evenly sized and responsive */
 .page-plaza .grid{
   display:grid;
@@ -463,8 +482,6 @@ body:not(:has(.page:target)) #dawn {
     grid-template-columns:1fr;
   }
 }
-
-/* ...existing code... */
 
 /* Patriotic ribbon footer */
 .site-footer {
