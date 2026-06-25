@@ -473,14 +473,104 @@ body:not(:has(.page:target)) #dawn {
   object-fit:cover;
 }
 
-/* small screens */
+/* Seagull animations and ocean audio player for Freedom's Dawn */
+
+/* base seagull styles (hidden from assistive tech) */
+.seagull{position:absolute;pointer-events:none;opacity:0.88;z-index:0}
+
+/* sizes and starting positions */
+.seagull--one{width:140px;top:10%;left:-15%;transform:translateX(0) scale(0.95)} /* top, left-to-right */
+.seagull--two{width:110px;top:42%;right:-15%;transform:translateX(0) scale(0.9)} /* middle, right-to-left */
+.seagull--three{width:180px;top:66%;left:10%;transform:translateX(0) scale(0.98)} /* horizon circling */
+.seagull--four{width:95px;top:18%;left:-20%;animation:fly-left-to-right 20s linear infinite;animation-delay:6s}
+.seagull--five{width:120px;top:36%;right:-18%;animation:fly-right-to-left 24s linear infinite;animation-delay:3s}
+.seagull--six{width:80px;top:52%;left:-10%;animation:fly-left-to-right 26s linear infinite;animation-delay:9s}
+.seagull--seven{width:160px;top:72%;right:-8%;animation:circle-slow 30s ease-in-out infinite;animation-delay:4s}
+.seagull--eight{width:100px;top:28%;left:-30%;animation:fly-left-to-right 18s linear infinite;animation-delay:11s}
+
+/* animations */
+@keyframes fly-left-to-right{0%{transform:translateX(-10vw) translateY(0) scale(0.95)}50%{transform:translateX(50vw) translateY(-4vh) scale(1.02)}100%{transform:translateX(120vw) translateY(0) scale(0.95)}}
+@keyframes fly-right-to-left{0%{transform:translateX(10vw) translateY(0) scale(0.9)}50%{transform:translateX(-40vw) translateY(3vh) scale(1)}100%{transform:translateX(-110vw) translateY(0) scale(0.9)}}
+@keyframes circle-slow{0%{transform:translateX(0) translateY(0) scale(0.98)}25%{transform:translateX(12vw) translateY(-3vh) scale(1)}50%{transform:translateX(0) translateY(-6vh) scale(0.99)}75%{transform:translateX(-10vw) translateY(-3vh) scale(0.97)}100%{transform:translateX(0) translateY(0) scale(0.98)}}
+
+/* apply animations with different durations and delays */
+.seagull--one{animation:fly-left-to-right 22s linear infinite;animation-delay:2s}
+.seagull--two{animation:fly-right-to-left 18s linear infinite;animation-delay:5s}
+.seagull--three{animation:circle-slow 26s ease-in-out infinite;animation-delay:1s}
+.seagull--four{animation:fly-left-to-right 20s linear infinite;animation-delay:6s}
+.seagull--five{animation:fly-right-to-left 24s linear infinite;animation-delay:3s}
+.seagull--six{animation:fly-left-to-right 26s linear infinite;animation-delay:9s}
+.seagull--seven{animation:circle-slow 30s ease-in-out infinite;animation-delay:4s}
+.seagull--eight{animation:fly-left-to-right 18s linear infinite;animation-delay:11s}
+
+/* place seagulls behind the page-inner but above background: set z-index below page-inner */
+.page-dawn .seagull{z-index:1}
+.page-dawn .page-inner{position:relative;z-index:2}
+
+/* ensure seagull images are not focusable */
+.seagull[aria-hidden="true"]{pointer-events:none}
+
+/* Ocean audio player styling (matching existing audio-card style) */
+.page-dawn .audio-card{margin-top:1.25rem;display:flex;flex-direction:column;align-items:center;gap:0.75rem;padding:1rem;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.96), rgba(245,240,232,0.95));box-shadow:0 12px 30px rgba(0,0,0,0.18);z-index:2}
+.page-dawn .audio-card .audio-label{color:var(--liberty-red);font-weight:800;margin:0}
+.page-dawn .audio-card audio{width:min(760px,92%);background:rgba(0,0,0,0.02);border-radius:8px}
+
 @media (max-width:900px){
-  .audio-card{
-    width:100%;
-  }
-  .page-plaza .grid{
-    grid-template-columns:1fr;
-  }
+  .seagull--one{display:block;width:110px}
+  .seagull--two{width:90px}
+  .seagull--three{width:140px}
+}
+
+@media (max-width:600px){
+  .seagull{display:none} /* hide seagulls on very small screens to avoid clutter */
+}
+
+/* end seagull and ocean audio styles */
+
+/* Seagull layer for Freedom's Dawn */
+.page-dawn .seagull-layer{
+  position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+
+.page-dawn .seagull{position:absolute;opacity:0.85;pointer-events:none;will-change:transform}
+
+/* sizes and starting positions */
+.page-dawn .seagull.s1{width:120px;top:8%;left:-10%;animation:fly-right 28s linear infinite;animation-delay:0s}
+.page-dawn .seagull.s2{width:90px;top:30%;right:-12%;animation:fly-left 36s linear infinite;animation-delay:4s}
+.page-dawn .seagull.s3{width:70px;top:45%;left:-8%;animation:circle 40s linear infinite;animation-delay:8s}
+.page-dawn .seagull.s4{width:110px;top:22%;left:-20%;animation:fly-right 34s linear infinite;animation-delay:2s}
+.page-dawn .seagull.s5{width:80px;top:60%;right:-18%;animation:fly-left 30s linear infinite;animation-delay:6s}
+
+@keyframes fly-right{
+  0%{transform:translateX(0) translateY(0) scale(0.95)}
+  50%{transform:translateX(110vw) translateY(6vh) scale(1.05)}
+  100%{transform:translateX(220vw) translateY(0) scale(0.95)}
+}
+
+@keyframes fly-left{
+  0%{transform:translateX(0) translateY(0) scale(1)}
+  50%{transform:translateX(-110vw) translateY(-4vh) scale(0.9)}
+  100%{transform:translateX(-220vw) translateY(0) scale(1)}
+}
+
+@keyframes circle{
+  0%{transform:translateX(0) translateY(0) scale(1)}
+  25%{transform:translateX(40vw) translateY(-6vh) scale(0.92)}
+  50%{transform:translateX(80vw) translateY(0) scale(0.88)}
+  75%{transform:translateX(40vw) translateY(6vh) scale(0.92)}
+  100%{transform:translateX(0) translateY(0) scale(1)}
+}
+
+/* ensure the seagull layer sits behind page-inner but above background */
+.page-dawn .page-inner{position:relative;z-index:2}
+.page-dawn .seagull-layer{z-index:1}
+
+/* responsive tweaks */
+@media (max-width:900px){
+  .page-dawn .seagull.s1{width:90px}
+  .page-dawn .seagull.s2{width:70px}
+  .page-dawn .seagull.s3{width:60px}
+  .page-dawn .seagull.s4{width:90px}
+  .page-dawn .seagull.s5{width:60px}
 }
 
 /* Patriotic ribbon footer */
@@ -524,3 +614,45 @@ body:not(:has(.page:target)) #dawn {
 
 /* Ensure footer text remains readable above backgrounds */
 .site-footer, .site-footer p { position: relative; z-index: 60; }
+
+/* Animated water overlay for Freedom's Dawn (CSS-only) */
+.page-dawn::after {
+  /* sits above the beach background but below content (.page-inner) */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* same stacking context as overlays; page-inner uses z-index:2 */
+  pointer-events: none;
+
+  /* layered subtle waves: a light dark overlay + moving stripe layer to simulate motion */
+  background:
+    linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.12)),
+    repeating-linear-gradient(-30deg, rgba(255,255,255,0.03) 0 6px, rgba(255,255,255,0.00) 6px 12px);
+  background-blend-mode: overlay, normal;
+
+  /* start positions */
+  background-position: 0 0, 0 0;
+
+  /* smooth horizontal slide + subtle vertical bob for depth */
+  animation: dawn-wave-slide 20s linear infinite, dawn-wave-bob 6s ease-in-out infinite;
+  opacity: 0.95; /* keeps image visible but with readable overlay */
+}
+
+@keyframes dawn-wave-slide {
+  from { background-position: 0 0, 0 0; }
+  to   { background-position: 800px 0, -800px 0; }
+}
+
+@keyframes dawn-wave-bob {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* Ensure seagulls remain visible above the water overlay but below content */
+.page-dawn .seagull{z-index:1.5}
+
+/* Keep the overlay lighter on mobile so foreground remains clear */
+@media (max-width:700px){
+  .page-dawn::after{opacity:0.9;animation-duration:28s,8s}
+}
