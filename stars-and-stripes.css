@@ -1,227 +1,404 @@
-/* Stars & Stripes - layout and storybook styles */
-:root{
-  --patriot-blue:#002868;
-  --liberty-red:#BF0A30;
-  --star-gold:#FFD700;
-  --cannon-smoke:#1A1A2E;
-  --parchment:#F5F0E8;
+:root {
+  --patriot-blue: #002868;
+  --liberty-red: #BF0A30;
+  --star-gold: #FFD700;
+  --cannon-smoke: #1A1A2E;
+  --parchment: #F5F0E8;
 
-  --max-width:1200px;
-  --story-width:1100px;
-  --header-height:64px; /* adjust if header height changes */
-  --overlay-rgba: rgba(245,240,232,0.78);
+  --max-width: 1200px;
+  --story-width: 1100px;
+  --header-height: 64px;
 }
 
-/* Reset & base */
-*{box-sizing:border-box}
-html,body{height:100%;}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-  color:var(--cannon-smoke);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  background:linear-gradient(180deg, #fff 0%, #f7f7f7 100%);
+* {
+  box-sizing: border-box;
 }
 
-/* Header / nav */
-.site-header{position:sticky;top:0;z-index:60;height:var(--header-height);display:flex;align-items:center;background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);border-bottom:1px solid rgba(0,0,0,0.06)}
-.navbar{max-width:var(--max-width);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 1rem;width:100%}
-.logo{font-weight:700;color:var(--patriot-blue);text-decoration:none}
-.nav-links{list-style:none;margin:0;padding:0;display:flex;gap:1rem}
-.nav-links a{color:var(--cannon-smoke);text-decoration:none;padding:0.25rem 0.5rem;border-radius:6px;transition:all .18s}
-.nav-links a:hover{background:rgba(0,0,0,0.04);transform:translateY(-2px)}
-
-/* PAGE LAYOUT - only CSS changes here per request */
-.page{
-  display:none; /* hidden by default */
-  min-height:calc(100vh - var(--header-height));
-  padding: calc(var(--header-height) + 26px) 2rem 3rem; /* top padding keeps content below sticky header */
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  position:relative;
+html,
+body {
+  min-height: 100%;
 }
 
-/* show targeted page and center content */
-.page:target{
-  display:flex;
-  align-items:center;
-  justify-content:center;
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--cannon-smoke);
+  background: #f4f4f4;
 }
 
-/* when no hash -> show dawn (uses :has when supported) */
-body:not(:has(.page:target)) #dawn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-/* Fallback: ensure dawn visible if no explicit :target support */
-/* If a browser does not support :has, this will still show dawn by default */
-#dawn[aria-labelledby] {
-  /* intentionally left simple; display controlled above */
+.navbar {
+  width: min(var(--max-width), 94vw);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Story panel wrapper */
-.page-inner, .story-panel{
-  width:min(var(--story-width), 92vw);
-  margin:0 auto;
-  background: linear-gradient(180deg, rgba(245,240,232,0.92), rgba(255,255,255,0.9));
-  border-radius:24px;
-  padding:2rem;
-  box-shadow:0 20px 50px rgba(0,0,0,0.18);
-  max-height:calc(100vh - var(--header-height) - 80px);
-  overflow:auto;
+.logo {
+  color: var(--patriot-blue);
+  font-weight: 800;
+  text-decoration: none;
+  font-size: 1.1rem;
 }
 
-/* make sure the story panel is centered vertically when page uses flex */
-.page:target .page-inner, body:not(:has(.page:target)) #dawn .page-inner{
-  /* allow vertical centering via parent flex */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
 }
 
-/* HERO - grid layout with buttons visible near title */
-.hero{
-  display:grid;
-  grid-template-columns: 120px 1fr auto;
-  gap:1.25rem;
-  align-items:center;
-  margin-bottom:1.75rem;
+.nav-links a {
+  color: var(--cannon-smoke);
+  text-decoration: none;
+  font-weight: 700;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 3px solid transparent;
 }
 
-.chapter-label{font-weight:700;color:var(--liberty-red);letter-spacing:1px}
-.hero h1{margin:0;font-size:2.25rem;color:var(--patriot-blue);padding:0}
-.lead{max-width:60ch;color:rgba(26,26,46,0.95)}
-.hero-actions{display:flex;gap:0.5rem}
-.page-button{display:inline-block;background:var(--patriot-blue);color:#fff;padding:0.6rem 1rem;border-radius:10px;text-decoration:none;transition:transform .18s,box-shadow .18s}
-.page-button.secondary{background:transparent;color:var(--patriot-blue);border:2px solid rgba(0,40,104,0.12)}
-.page-button:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,0.12)}
-
-/* Content grid - larger cards */
-.content .grid, .beach-scene, .content-grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap:1.25rem;
-  align-items:start;
+.nav-links a:hover,
+.nav-links a:focus {
+  color: var(--liberty-red);
+  border-bottom-color: var(--liberty-red);
 }
 
-.card, .story-card{
-  background:rgba(255,255,255,0.95);
-  border-radius:16px;
-  padding:1.25rem;
-  min-height:260px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.12);
-  display:flex;
-  flex-direction:column;
-  gap:0.75rem;
-  transition:transform .22s,box-shadow .22s;
-}
-.card:hover, .story-card:hover{transform:translateY(-8px);box-shadow:0 26px 60px rgba(0,0,0,0.16)}
-
-.story-card img, .card img{
-  width:100%;
-  height:180px;
-  object-fit:cover; /* ensure good cropping for hero images */
-  display:block;
-  border-radius:10px;
+.page {
+  display: none;
+  min-height: calc(100vh - var(--header-height));
+  padding: 4rem 2rem;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.card h2{margin:0;font-size:1.25rem;color:var(--cannon-smoke)}
-.card p{margin:0;color:rgba(26,26,46,0.9);line-height:1.45}
-
-/* Stars */
-.star{color:var(--star-gold);font-size:2.2rem;display:inline-block;transform-origin:center center;animation:twinkle 3s ease-in-out infinite}
-.stars-inline .star{margin-right:6px}
-
-@keyframes twinkle{0%{transform:scale(0.9);opacity:0.9}50%{transform:scale(1.15);opacity:1}100%{transform:scale(0.95);opacity:0.95}}
-
-/* Background images per page with reduced opacity/overlay */
-.page::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  z-index:0;
-  opacity:0.95;
-  filter:brightness(0.9) saturate(0.95) contrast(0.95);
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
 }
 
-.page-dawn::before{background-image:linear-gradient(rgba(10,10,20,0.18), rgba(10,10,20,0.06)), url('images/South-Beach-Miami-FOURTHBEACH0618-2ee192f8b6fe42ddb7bfd0de38987cba-391897571.jpg');}
-.page-plaza::before{background-image:linear-gradient(rgba(10,10,20,0.22), rgba(10,10,20,0.08)), url('images/nemzetiünnep-fireworks.gif');}
-.page-united::before{background-image:linear-gradient(rgba(10,10,20,0.16), rgba(10,10,20,0.04)), url('images/seagull_flying_1.png');}
-
-/* Ensure main content sits above background */
-.page-inner{position:relative;z-index:2}
-
-/* Decorative positioned helpers from the legacy stylesheet */
-/* These place artwork in fixed positions on the page when needed */
-.standing-seagull {
-  position:absolute;
-  top:85%;
-  left:25%;
-  transform:translate(-50%, -50%);
-  max-width:100px;
-  z-index:1;
+.page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.35);
+  z-index: 1;
 }
 
-.ice-cream-man{
-  position:absolute;
-  top:80%;
-  left:60%;
-  transform:translate(-50%, -50%);
-  max-width:375px;
-  z-index:1;
+.page:target {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.ice-cream-cart{
-  position:absolute;
-  top:80%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  max-width:375px;
-  z-index:1;
+body:not(:has(.page:target)) #dawn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.flying-seagull {
-  position:absolute;
-  top:25%;
-  left:60%;
-  transform:translate(-50%, -50%);
-  max-width:100px;
-  z-index:1;
+.page-dawn::before {
+  background-image: url("images/South-Beach-Miami-FOURTHBEACH0618-2ee192f8b6fe42ddb7bfd0de38987cba-391897571.jpg");
 }
 
-/* Small spacing tweaks from the legacy stylesheet */
-.hero h1{padding:0}
-.hero p{margin:0}
-
-/* Footer */
-.site-footer{max-width:var(--max-width);margin:2rem auto;padding:1rem;text-align:center;color:rgba(26,26,46,0.8)}
-.patriotic-statement{font-weight:700;color:var(--liberty-red)}
-
-/* Responsive adjustments */
-@media (min-width:1200px){
-  .page-inner{width:var(--story-width)}
-  .hero h1{font-size:3rem}
+.page-plaza::before {
+  background-image: url("images/nemzetiünnep-fireworks.gif");
 }
 
-@media (max-width:900px){
-  .hero{grid-template-columns:1fr;text-align:center}
-  .hero .hero-actions{justify-content:center}
-  .page{padding-top:calc(var(--header-height) + 18px)}
+.page-united::before {
+  background-image: url("images/We Stand Together.png");
 }
 
-@media (max-width:800px){
-  .content .grid, .beach-scene, .content-grid{grid-template-columns:1fr}
-  .card, .story-card{min-height:180px}
-  .story-card img, .card img{height:150px;object-fit:cover}
+.page-inner {
+  position: relative;
+  z-index: 2;
+  width: min(var(--story-width), 94vw);
+  background: rgba(245, 240, 232, 0.92);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
 }
 
-/* Accessibility helpers */
-a.page-button:focus{outline:3px solid rgba(255,215,0,0.25);outline-offset:3px}
+.hero {
+  display: grid;
+  grid-template-columns: 130px 1fr 1.3fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
 
-/* Small polish for scrollable panels on very small viewports */
-.page-inner::-webkit-scrollbar{height:8px}
-.page-inner::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.1);border-radius:8px}
+.chapter-label {
+  color: var(--liberty-red);
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1;
+  color: var(--patriot-blue);
+}
+
+.lead {
+  margin: 0;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.page-button {
+  display: inline-block;
+  background: var(--patriot-blue);
+  color: white;
+  padding: 0.85rem 1.2rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 800;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.page-button:hover,
+.page-button:focus {
+  background: var(--liberty-red);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(191, 10, 48, 0.35);
+}
+
+.page-button.secondary {
+  background: white;
+  color: var(--patriot-blue);
+  border: 2px solid rgba(0, 40, 104, 0.15);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.united-grid {
+  grid-template-columns: 1fr 1fr 2.3fr;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 16px;
+  padding: 1.25rem;
+  min-height: 250px;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.18);
+}
+
+.card img {
+  width: 100%;
+  height: 145px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+}
+
+.card h2 {
+  margin: 0 0 0.65rem;
+  color: var(--patriot-blue);
+  font-size: 1.2rem;
+}
+
+.card p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.star,
+.red-star {
+  display: inline-block;
+  font-size: 2.3rem;
+  margin-top: 1rem;
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+.star {
+  color: var(--star-gold);
+}
+
+.red-star {
+  color: var(--liberty-red);
+  margin-right: 0.3rem;
+}
+
+@keyframes sparkle {
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: scale(1.2) rotate(8deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+}
+
+.service-card {
+  min-height: 250px;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.service-grid figure {
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--patriot-blue);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+  transition: transform 0.25s ease;
+}
+
+.service-grid figure:hover {
+  transform: translateY(-6px);
+}
+
+.service-grid img {
+  width: 100%;
+  height: 135px;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  border-radius: 0;
+}
+
+.service-grid figcaption {
+  background: var(--patriot-blue);
+  color: white;
+  text-align: center;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 0.55rem 0.3rem;
+  font-size: 0.75rem;
+}
+
+.service-grid figure:nth-child(3) figcaption,
+.service-grid figure:nth-child(5) figcaption {
+  background: var(--liberty-red);
+}
+
+.site-footer {
+  background: var(--patriot-blue);
+  color: white;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.site-footer p {
+  margin: 0.35rem 0;
+}
+
+.patriotic-statement {
+  color: var(--star-gold);
+  font-weight: 900;
+}
+
+@media (max-width: 1100px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .grid,
+  .united-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .service-card {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 700px) {
+  .site-header {
+    height: auto;
+    padding: 0.75rem 0;
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.35rem;
+  }
+
+  .page {
+    padding: 2rem 1rem;
+  }
+
+  .grid,
+  .united-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    grid-column: span 1;
+  }
+
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-grid img {
+    height: 200px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition: none !important;
+  }
+}
